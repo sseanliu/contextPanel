@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contextual Word Explainer</title>
+  <style>
+    body { 
+      font-family: sans-serif; 
+      padding: 1em; 
+      width: 220px; 
+      transition: background-color 0.3s, color 0.3s;
+    }
+    a { color: #007bff; text-decoration: none; }
+    h1 { text-align: center; margin-top: 0; }
+    .setting { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1em; }
+    .footer { text-align: center; margin-top: 1em; }
+
+    /* Dark Mode styles for popup */
+    body.dark-mode {
+      background-color: #2d2d2d;
+      color: #f1f1f1;
+    }
+    body.dark-mode a {
+      color: #4dabf7;
+    }
+
+    /* The switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #007bff;
+    }
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+    .slider.round {
+      border-radius: 28px;
+    }
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Explainer</h1>
+  
+  <div class="setting">
+    <label for="darkMode">Dark Mode</label>
+    <label class="switch">
+      <input type="checkbox" id="darkMode">
+      <span class="slider round"></span>
+    </label>
+  </div>
+
+  <div class="setting">
+    <label for="speakSelection">Speak Selection</label>
+    <label class="switch">
+      <input type="checkbox" id="speakSelection">
+      <span class="slider round"></span>
+    </label>
+  </div>
+
+  <div class="footer">
+    <a href="options.html" target="_blank">API Key Settings</a>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html> 

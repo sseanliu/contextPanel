@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contextual Word Explainer Options</title>
+  <style>
+    body { 
+      font-family: sans-serif; 
+      padding: 1em; 
+      transition: background-color 0.3s, color 0.3s;
+    }
+    #container { width: 400px; }
+    label { display: block; margin-bottom: 0.5em; }
+    input[type="password"] { 
+      width: 100%; 
+      padding: 0.5em; 
+      margin-bottom: 1em; 
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      background-color: white;
+      color: #333;
+    }
+    button { padding: 0.7em 1.2em; border: none; background-color: #007bff; color: white; cursor: pointer; border-radius: 4px; }
+    #status { margin-top: 1em; }
+
+    /* Dark Mode styles for options page */
+    body.dark-mode {
+      background-color: #2d2d2d;
+      color: #f1f1f1;
+    }
+    body.dark-mode input[type="password"] {
+      background-color: #3c3c3c;
+      color: #f1f1f1;
+      border-color: #555;
+    }
+    body.dark-mode button {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Settings</h1>
+    <label for="apiKey">OpenAI API Key:</label>
+    <input type="password" id="apiKey" placeholder="Enter your OpenAI API key">
+    
+    <button id="save">Save</button>
+    <div id="status"></div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html> 

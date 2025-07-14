@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Contextual Word Explainer",
+  "version": "1.0",
+  "description": "Select a word to get its meaning in context, powered by GPT.",
+  "permissions": [
+    "storage",
+    "scripting",
+    "notifications",
+    "tts"
+  ],
+  "host_permissions": [
+    "https://api.openai.com/"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["marked.min.js", "content.js"],
+      "css": ["style.css"]
+    }
+  ],
+  "options_page": "options.html",
+  "action": {
+    "default_title": "Contextual Word Explainer",
+    "default_popup": "popup.html"
+  }
+} 
