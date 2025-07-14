@@ -68,6 +68,41 @@ function getContext(range) {
     return element.innerText || element.textContent;
 }
 
+function adjustPanelPosition(panel) {
+  if (!panel) return;
+
+  const panelRect = panel.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const margin = 15;
+
+  let left = panelRect.left;
+  let top = panelRect.top;
+
+  // Adjust horizontal position
+  if (left + panelRect.width > viewportWidth - margin) {
+    left = viewportWidth - panelRect.width - margin;
+  }
+  if (left < margin) {
+    left = margin;
+  }
+
+  // Adjust vertical position
+  if (top + panelRect.height > viewportHeight - margin) {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
+      const topAbove = selectionRect.top - panelRect.height - 10;
+      if (topAbove > 0) { // Check if it fits above
+        top = topAbove;
+      }
+    }
+  }
+  
+  panel.style.left = `${left + window.scrollX}px`;
+  panel.style.top = `${top + window.scrollY}px`;
+}
+
 
 function showExplainer(rect, selectedText, context, currentRequestId, isDarkMode) {
   explainerDiv = document.createElement('div');
@@ -88,6 +123,8 @@ function showExplainer(rect, selectedText, context, currentRequestId, isDarkMode
   explainerDiv.style.top = `${window.scrollY + rect.bottom + 5}px`;
   explainerDiv.style.left = `${window.scrollX + rect.left}px`;
   
+  adjustPanelPosition(explainerDiv);
+
   // Get explanation from background script
   chrome.runtime.sendMessage({
     type: 'getExplanation',
@@ -103,6 +140,7 @@ function showExplainer(rect, selectedText, context, currentRequestId, isDarkMode
         // Check if the explainer was closed while we were waiting
         if(explainerDiv) {
           explainerDiv.querySelector('.explainer-content').innerHTML = marked.parse(response.explanation);
+          adjustPanelPosition(explainerDiv);
         }
       } else if (response.error) {
         if(explainerDiv) {
