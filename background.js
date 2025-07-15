@@ -34,7 +34,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 请按照以下顺序和格式，用Markdown直接输出，不要包含在代码块中：
 
 **中文直译：** \n
-(显示${request.selection}的中文翻译结果，如果所选区域仅是一个单词的话，带上它在这里的词性，例如“在这里作动词”)；
+(显示${request.selection}的中文翻译结果，如果所选区域仅是一个单词的话，带上它在这里的词性，例如“在这里作动词”，否则不要带上词性)；
 **解释：** \n
 对${request.selection}的原意进行解释，不考虑上下文；
 **在该上下文中，** \n
