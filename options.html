@@ -10,7 +10,7 @@
     }
     #container { width: 400px; }
     label { display: block; margin-bottom: 0.5em; }
-    input[type="password"] { 
+    input[type="password"], select { 
       width: 100%; 
       padding: 0.5em; 
       margin-bottom: 1em; 
@@ -19,6 +19,7 @@
       background-color: white;
       color: #333;
     }
+    .setting { margin-bottom: 1em; }
     button { padding: 0.7em 1.2em; border: none; background-color: #007bff; color: white; cursor: pointer; border-radius: 4px; }
     #status { margin-top: 1em; }
 
@@ -27,7 +28,7 @@
       background-color: #2d2d2d;
       color: #f1f1f1;
     }
-    body.dark-mode input[type="password"] {
+    body.dark-mode input[type="password"], body.dark-mode select {
       background-color: #3c3c3c;
       color: #f1f1f1;
       border-color: #555;
@@ -43,6 +44,14 @@
     <label for="apiKey">OpenAI API Key:</label>
     <input type="password" id="apiKey" placeholder="Enter your OpenAI API key">
     
+    <div class="setting">
+      <label for="ttsEngine">Text-to-Speech Engine:</label>
+      <select id="ttsEngine">
+        <option value="system">System Default</option>
+        <option value="openai">OpenAI</option>
+      </select>
+    </div>
+
     <button id="save">Save</button>
     <div id="status"></div>
   </div>

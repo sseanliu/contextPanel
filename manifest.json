@@ -7,7 +7,8 @@
     "storage",
     "scripting",
     "notifications",
-    "tts"
+    "tts",
+    "offscreen"
   ],
   "host_permissions": [
     "https://api.openai.com/"
@@ -22,6 +23,10 @@
       "css": ["style.css"]
     }
   ],
+  "offscreen": {
+    "reasons": ["AUDIO_PLAYBACK"],
+    "justification": "Required to play audio from OpenAI TTS."
+  },
   "options_page": "options.html",
   "action": {
     "default_title": "Contextual Word Explainer",
