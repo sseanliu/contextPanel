@@ -67,6 +67,17 @@
     .slider.round:before {
       border-radius: 50%;
     }
+    .setting-vertical {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1em;
+    }
+    .setting-vertical label {
+      margin-bottom: 0.5em;
+    }
+    .setting-vertical input[type="range"] {
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -86,6 +97,11 @@
       <input type="checkbox" id="speakSelection">
       <span class="slider round"></span>
     </label>
+  </div>
+
+  <div class="setting-vertical">
+    <label for="panelOpacity">Panel Opacity</label>
+    <input type="range" id="panelOpacity" min="0.2" max="1" step="0.05">
   </div>
 
   <div class="footer">

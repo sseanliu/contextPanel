@@ -1,6 +1,33 @@
 let explainerDiv;
 let latestRequestId = 0;
 
+function applyPanelStyles(panel, settings) {
+    const { darkMode, panelOpacity } = settings;
+    if (darkMode) {
+        panel.classList.add('dark-mode');
+        panel.style.backgroundColor = `rgba(45, 45, 45, ${panelOpacity})`;
+        panel.style.borderColor = `rgba(68, 68, 68, ${panelOpacity})`;
+    } else {
+        panel.classList.remove('dark-mode');
+        panel.style.backgroundColor = `rgba(245, 245, 245, ${panelOpacity})`;
+        panel.style.borderColor = `rgba(224, 224, 224, ${panelOpacity})`;
+    }
+}
+
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'sync' && explainerDiv) {
+        // If either dark mode or opacity changes, we need to re-apply styles.
+        // We need the *current* full state to do that.
+        if (changes.darkMode || changes.panelOpacity) {
+             chrome.storage.sync.get({ darkMode: false, panelOpacity: 1.0 }, (settings) => {
+                if (explainerDiv) { // check again, it might have been closed
+                    applyPanelStyles(explainerDiv, settings);
+                }
+            });
+        }
+    }
+});
+
 function hideExplainer() {
   if (explainerDiv) {
     explainerDiv.remove();
@@ -32,12 +59,12 @@ document.addEventListener('mouseup', (event) => {
 
     // console.log("Context for explanation:", context);
 
-    chrome.storage.sync.get({ darkMode: false, speakSelection: false }, (items) => {
+    chrome.storage.sync.get({ darkMode: false, speakSelection: false, panelOpacity: 1.0 }, (settings) => {
       const isYouTube = window.location.hostname.includes('youtube.com');
-      if (items.speakSelection && !isYouTube) {
+      if (settings.speakSelection && !isYouTube) {
         chrome.runtime.sendMessage({ type: 'speakText', selection: selectedText });
       }
-      showExplainer(rect, selectedText, context, currentRequestId, items.darkMode);
+      showExplainer(rect, selectedText, context, currentRequestId, settings);
     });
   }
 });
@@ -104,12 +131,11 @@ function adjustPanelPosition(panel) {
 }
 
 
-function showExplainer(rect, selectedText, context, currentRequestId, isDarkMode) {
+function showExplainer(rect, selectedText, context, currentRequestId, settings) {
   explainerDiv = document.createElement('div');
   explainerDiv.id = 'explainer-container';
-  if (isDarkMode) {
-    explainerDiv.classList.add('dark-mode');
-  }
+  
+  applyPanelStyles(explainerDiv, settings);
   
   explainerDiv.innerHTML = `
     <div class="explainer-content">
