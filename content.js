@@ -25,6 +25,10 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
                 }
             });
         }
+        // If showPanel is turned off, hide the current panel
+        if (changes.showPanel && changes.showPanel.newValue === false) {
+            hideExplainer();
+        }
     }
 });
 
@@ -59,12 +63,14 @@ document.addEventListener('mouseup', (event) => {
 
     // console.log("Context for explanation:", context);
 
-    chrome.storage.sync.get({ darkMode: false, speakSelection: false, panelOpacity: 1.0 }, (settings) => {
+    chrome.storage.sync.get({ darkMode: false, speakSelection: false, showPanel: true, panelOpacity: 1.0 }, (settings) => {
       const isYouTube = window.location.hostname.includes('youtube.com');
       if (settings.speakSelection && !isYouTube) {
         chrome.runtime.sendMessage({ type: 'speakText', selection: selectedText });
       }
-      showExplainer(rect, selectedText, context, currentRequestId, settings);
+      if (settings.showPanel) {
+        showExplainer(rect, selectedText, context, currentRequestId, settings);
+      }
     });
   }
 });

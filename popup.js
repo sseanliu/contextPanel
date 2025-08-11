@@ -1,11 +1,13 @@
 const darkModeToggle = document.getElementById('darkMode');
 const speakSelectionToggle = document.getElementById('speakSelection');
+const showPanelToggle = document.getElementById('showPanel');
 const panelOpacitySlider = document.getElementById('panelOpacity');
 
 // Saves options to chrome.storage
 const saveOptions = () => {
   const darkMode = darkModeToggle.checked;
   const speakSelection = speakSelectionToggle.checked;
+  const showPanel = showPanelToggle.checked;
   const panelOpacity = panelOpacitySlider.value;
 
   if(darkMode) {
@@ -15,16 +17,17 @@ const saveOptions = () => {
   }
 
   chrome.storage.sync.set(
-    { darkMode: darkMode, speakSelection: speakSelection, panelOpacity: panelOpacity }
+    { darkMode: darkMode, speakSelection: speakSelection, showPanel: showPanel, panelOpacity: panelOpacity }
   );
 };
 
 // Restores checkbox state using the preferences
 // stored in chrome.storage.
 const restoreOptions = () => {
-  chrome.storage.sync.get({ darkMode: false, speakSelection: false, panelOpacity: 1 }, (items) => {
+  chrome.storage.sync.get({ darkMode: false, speakSelection: false, showPanel: true, panelOpacity: 1 }, (items) => {
     darkModeToggle.checked = items.darkMode;
     speakSelectionToggle.checked = items.speakSelection;
+    showPanelToggle.checked = items.showPanel;
     panelOpacitySlider.value = items.panelOpacity;
     
     if (items.darkMode) {
@@ -36,4 +39,5 @@ const restoreOptions = () => {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 darkModeToggle.addEventListener('change', saveOptions);
 speakSelectionToggle.addEventListener('change', saveOptions);
+showPanelToggle.addEventListener('change', saveOptions);
 panelOpacitySlider.addEventListener('input', saveOptions); 
